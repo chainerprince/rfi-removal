@@ -1,0 +1,9 @@
+{
+  "python": "3.10.20",
+  "torch": "2.5.1",
+  "numpy": "2.2.5",
+  "device": "cuda",
+  "gpu": "NVIDIA H100 80GB HBM3",
+  "parameters": 29321,
+  "max_epochs_this_session": 100
+}

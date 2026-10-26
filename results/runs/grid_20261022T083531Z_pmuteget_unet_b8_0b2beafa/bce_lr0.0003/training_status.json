@@ -1,0 +1,6 @@
+{
+  "status": "validation_plateau",
+  "last_epoch": 33,
+  "best_epoch": 25,
+  "best_validation_ap": 0.6325617183224349
+}

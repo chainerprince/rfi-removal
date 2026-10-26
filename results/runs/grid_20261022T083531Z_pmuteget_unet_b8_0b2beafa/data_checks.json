@@ -1,0 +1,14 @@
+{
+  "archive_sha256": null,
+  "required_content_manifest_sha256": null,
+  "required_files_checked": 0,
+  "recordings_checked": 200,
+  "validation_positive_cells": 5799220,
+  "catalog_sha256": "defbdeccf62169f70582583e21534de351a9eb479ab6d227a9957b182053b39c",
+  "shape_per_recording": [
+    4096,
+    10,
+    128,
+    1
+  ]
+}

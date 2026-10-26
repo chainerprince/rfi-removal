@@ -1,0 +1,21 @@
+{
+  "calibration_split": "validation",
+  "calibration_family": "clean",
+  "clean_sample_ids": [
+    108,
+    114,
+    147
+  ],
+  "probability_bins": 65536,
+  "quantized_cut": 1,
+  "decision_rule": "floor(sigmoid(logit)*(bins-1)) >= quantized_cut",
+  "probability_lower_bound": 1.5259021896696422e-05,
+  "target_clean_fpr": 0.012239583333333333,
+  "achieved_clean_fpr": 7.05718994140625e-06,
+  "baseline_clean_fpr": {
+    "sk": 0.00703125,
+    "bandpass": 0.0,
+    "sk-bandpass": 0.012239583333333333
+  },
+  "best_checkpoint_sha256": "27f48d47829a4980ea71f9e7ce3204c05f2a34a71af0493993486ed35a90f019"
+}

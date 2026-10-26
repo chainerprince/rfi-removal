@@ -1,0 +1,12 @@
+{
+  "condition": "high",
+  "train_seed": 164,
+  "duties": [
+    0.75,
+    1.0
+  ],
+  "best_epoch": 18,
+  "best_validation_ap": 0.6254239908128104,
+  "last_epoch": 27,
+  "converged": true
+}

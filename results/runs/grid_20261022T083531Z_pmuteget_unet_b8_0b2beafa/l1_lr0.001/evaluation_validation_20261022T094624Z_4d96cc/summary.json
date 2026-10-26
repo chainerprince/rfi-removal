@@ -1,0 +1,31 @@
+{
+  "pixel_ap_quantized": 0.018435223897298177,
+  "probability_bins": 65536,
+  "recordings": 60,
+  "antenna_pairs": 600,
+  "positive_cells": 5799220,
+  "negative_cells": 308773580,
+  "model_mean_inference_seconds": 0.002436825726181269,
+  "calibration": {
+    "calibration_split": "validation",
+    "calibration_family": "clean",
+    "clean_sample_ids": [
+      108,
+      114,
+      147
+    ],
+    "probability_bins": 65536,
+    "quantized_cut": 1,
+    "decision_rule": "floor(sigmoid(logit)*(bins-1)) >= quantized_cut",
+    "probability_lower_bound": 1.5259021896696422e-05,
+    "target_clean_fpr": 0.012239583333333333,
+    "achieved_clean_fpr": 0.0,
+    "baseline_clean_fpr": {
+      "sk": 0.00703125,
+      "bandpass": 0.0,
+      "sk-bandpass": 0.012239583333333333
+    },
+    "best_checkpoint_sha256": "3c8bf4f5077c559c74d7da42919eca1f12e9cd77af0f965e4df8fa7f8a6e4059"
+  },
+  "metric_note": "Pixel AP is exact for quantized probabilities; approximate for unquantized model scores. Whole-mask AP50 is a custom single-tied-group metric, not pixel AP or a standard instance benchmark. Measured power retained includes noise, not isolated astronomical flux."
+}

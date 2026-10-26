@@ -1,0 +1,15 @@
+{
+  "condition": "all",
+  "train_seed": 163,
+  "duties": [
+    0.1,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "best_epoch": 26,
+  "best_validation_ap": 0.6240243324739824,
+  "last_epoch": 36,
+  "converged": true
+}

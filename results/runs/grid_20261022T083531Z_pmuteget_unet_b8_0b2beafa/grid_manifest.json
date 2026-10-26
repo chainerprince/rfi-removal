@@ -1,0 +1,229 @@
+{
+  "spec": {
+    "owner": "pmuteget",
+    "protocol": {
+      "workflow_version": "rfi-team-1.2-content-check",
+      "architecture": "unet",
+      "base_channels": 8,
+      "seed": 163,
+      "batch_size": 1,
+      "probability_bins": 65536,
+      "min_epochs": 20,
+      "patience": 10,
+      "min_ap_improvement": 0.001,
+      "archive_sha256": null,
+      "catalog_sha256": "defbdeccf62169f70582583e21534de351a9eb479ab6d227a9957b182053b39c",
+      "baseline_far": 0.0001,
+      "shared_code_sha256": "44f6696e55913f0419aba379baa44337dccc9c7106ec105d263b03f9cb39eba4"
+    },
+    "losses": [
+      "bce",
+      "mse",
+      "l1"
+    ],
+    "learning_rates": [
+      0.0003,
+      0.001
+    ]
+  },
+  "trials": {
+    "bce_lr0.0003": {
+      "config": {
+        "workflow_version": "rfi-team-1.2-content-check",
+        "architecture": "unet",
+        "base_channels": 8,
+        "seed": 163,
+        "batch_size": 1,
+        "probability_bins": 65536,
+        "min_epochs": 20,
+        "patience": 10,
+        "min_ap_improvement": 0.001,
+        "archive_sha256": null,
+        "catalog_sha256": "defbdeccf62169f70582583e21534de351a9eb479ab6d227a9957b182053b39c",
+        "baseline_far": 0.0001,
+        "shared_code_sha256": "44f6696e55913f0419aba379baa44337dccc9c7106ec105d263b03f9cb39eba4",
+        "loss": "bce",
+        "learning_rate": 0.0003
+      },
+      "status": "complete",
+      "metrics": {
+        "evaluation_dir": "/resnick/groups/CS156b/from_central/2026/njack2/rfi-removal/results/runs/grid_20261022T083531Z_pmuteget_unet_b8_0b2beafa/bce_lr0.0003/evaluation_validation_20261022T085034Z_5dad98",
+        "selected_epoch": 25,
+        "parameters": 29321,
+        "validation_pixel_ap_quantized": 0.6325617183224349,
+        "precision": 0.3809476731733261,
+        "recall": 0.6823871141291415,
+        "false_positive_rate": 0.02082678835410724,
+        "removal_fraction": 0.033022801081339516,
+        "custom_whole_mask_map50": 0.0021782178217821784,
+        "clean_fpr_target": 0.012239583333333333,
+        "clean_fpr_achieved": 0.012233098347981771
+      }
+    },
+    "bce_lr0.001": {
+      "config": {
+        "workflow_version": "rfi-team-1.2-content-check",
+        "architecture": "unet",
+        "base_channels": 8,
+        "seed": 163,
+        "batch_size": 1,
+        "probability_bins": 65536,
+        "min_epochs": 20,
+        "patience": 10,
+        "min_ap_improvement": 0.001,
+        "archive_sha256": null,
+        "catalog_sha256": "defbdeccf62169f70582583e21534de351a9eb479ab6d227a9957b182053b39c",
+        "baseline_far": 0.0001,
+        "shared_code_sha256": "44f6696e55913f0419aba379baa44337dccc9c7106ec105d263b03f9cb39eba4",
+        "loss": "bce",
+        "learning_rate": 0.001
+      },
+      "status": "complete",
+      "metrics": {
+        "evaluation_dir": "/resnick/groups/CS156b/from_central/2026/njack2/rfi-removal/results/runs/grid_20261022T083531Z_pmuteget_unet_b8_0b2beafa/bce_lr0.001/evaluation_validation_20261022T090959Z_a2c005",
+        "selected_epoch": 33,
+        "parameters": 29321,
+        "validation_pixel_ap_quantized": 0.6346029623545562,
+        "precision": 0.3949917499989534,
+        "recall": 0.6833408630815868,
+        "false_positive_rate": 0.019658035509385226,
+        "removal_fraction": 0.0318931770324707,
+        "custom_whole_mask_map50": 0.005346534653465347,
+        "clean_fpr_target": 0.012239583333333333,
+        "clean_fpr_achieved": 0.012238820393880209
+      }
+    },
+    "mse_lr0.0003": {
+      "config": {
+        "workflow_version": "rfi-team-1.2-content-check",
+        "architecture": "unet",
+        "base_channels": 8,
+        "seed": 163,
+        "batch_size": 1,
+        "probability_bins": 65536,
+        "min_epochs": 20,
+        "patience": 10,
+        "min_ap_improvement": 0.001,
+        "archive_sha256": null,
+        "catalog_sha256": "defbdeccf62169f70582583e21534de351a9eb479ab6d227a9957b182053b39c",
+        "baseline_far": 0.0001,
+        "shared_code_sha256": "44f6696e55913f0419aba379baa44337dccc9c7106ec105d263b03f9cb39eba4",
+        "loss": "mse",
+        "learning_rate": 0.0003
+      },
+      "status": "complete",
+      "metrics": {
+        "evaluation_dir": "/resnick/groups/CS156b/from_central/2026/njack2/rfi-removal/results/runs/grid_20261022T083531Z_pmuteget_unet_b8_0b2beafa/mse_lr0.0003/evaluation_validation_20261022T091906Z_562bb6",
+        "selected_epoch": 1,
+        "parameters": 29321,
+        "validation_pixel_ap_quantized": 0.018435223897298177,
+        "precision": 0.0,
+        "recall": 0.0,
+        "false_positive_rate": 4.582969825332854e-05,
+        "removal_fraction": 4.4984817504882814e-05,
+        "custom_whole_mask_map50": 0.0,
+        "clean_fpr_target": 0.012239583333333333,
+        "clean_fpr_achieved": 4.6475728352864584e-05
+      }
+    },
+    "mse_lr0.001": {
+      "config": {
+        "workflow_version": "rfi-team-1.2-content-check",
+        "architecture": "unet",
+        "base_channels": 8,
+        "seed": 163,
+        "batch_size": 1,
+        "probability_bins": 65536,
+        "min_epochs": 20,
+        "patience": 10,
+        "min_ap_improvement": 0.001,
+        "archive_sha256": null,
+        "catalog_sha256": "defbdeccf62169f70582583e21534de351a9eb479ab6d227a9957b182053b39c",
+        "baseline_far": 0.0001,
+        "shared_code_sha256": "44f6696e55913f0419aba379baa44337dccc9c7106ec105d263b03f9cb39eba4",
+        "loss": "mse",
+        "learning_rate": 0.001
+      },
+      "status": "complete",
+      "metrics": {
+        "evaluation_dir": "/resnick/groups/CS156b/from_central/2026/njack2/rfi-removal/results/runs/grid_20261022T083531Z_pmuteget_unet_b8_0b2beafa/mse_lr0.001/evaluation_validation_20261022T092811Z_a5ec06",
+        "selected_epoch": 1,
+        "parameters": 29321,
+        "validation_pixel_ap_quantized": 0.018435223897298177,
+        "precision": 0.0,
+        "recall": 0.0,
+        "false_positive_rate": 7.066666778938794e-06,
+        "removal_fraction": 6.9363911946614584e-06,
+        "custom_whole_mask_map50": 0.0,
+        "clean_fpr_target": 0.012239583333333333,
+        "clean_fpr_achieved": 7.05718994140625e-06
+      }
+    },
+    "l1_lr0.0003": {
+      "config": {
+        "workflow_version": "rfi-team-1.2-content-check",
+        "architecture": "unet",
+        "base_channels": 8,
+        "seed": 163,
+        "batch_size": 1,
+        "probability_bins": 65536,
+        "min_epochs": 20,
+        "patience": 10,
+        "min_ap_improvement": 0.001,
+        "archive_sha256": null,
+        "catalog_sha256": "defbdeccf62169f70582583e21534de351a9eb479ab6d227a9957b182053b39c",
+        "baseline_far": 0.0001,
+        "shared_code_sha256": "44f6696e55913f0419aba379baa44337dccc9c7106ec105d263b03f9cb39eba4",
+        "loss": "l1",
+        "learning_rate": 0.0003
+      },
+      "status": "complete",
+      "metrics": {
+        "evaluation_dir": "/resnick/groups/CS156b/from_central/2026/njack2/rfi-removal/results/runs/grid_20261022T083531Z_pmuteget_unet_b8_0b2beafa/l1_lr0.0003/evaluation_validation_20261022T093718Z_ed1bdf",
+        "selected_epoch": 1,
+        "parameters": 29321,
+        "validation_pixel_ap_quantized": 0.018435223897298177,
+        "precision": 0.0,
+        "recall": 0.0,
+        "false_positive_rate": 8.46575021088268e-06,
+        "removal_fraction": 8.309682210286458e-06,
+        "custom_whole_mask_map50": 0.0,
+        "clean_fpr_target": 0.012239583333333333,
+        "clean_fpr_achieved": 8.392333984375e-06
+      }
+    },
+    "l1_lr0.001": {
+      "config": {
+        "workflow_version": "rfi-team-1.2-content-check",
+        "architecture": "unet",
+        "base_channels": 8,
+        "seed": 163,
+        "batch_size": 1,
+        "probability_bins": 65536,
+        "min_epochs": 20,
+        "patience": 10,
+        "min_ap_improvement": 0.001,
+        "archive_sha256": null,
+        "catalog_sha256": "defbdeccf62169f70582583e21534de351a9eb479ab6d227a9957b182053b39c",
+        "baseline_far": 0.0001,
+        "shared_code_sha256": "44f6696e55913f0419aba379baa44337dccc9c7106ec105d263b03f9cb39eba4",
+        "loss": "l1",
+        "learning_rate": 0.001
+      },
+      "status": "complete",
+      "metrics": {
+        "evaluation_dir": "/resnick/groups/CS156b/from_central/2026/njack2/rfi-removal/results/runs/grid_20261022T083531Z_pmuteget_unet_b8_0b2beafa/l1_lr0.001/evaluation_validation_20261022T094624Z_4d96cc",
+        "selected_epoch": 1,
+        "parameters": 29321,
+        "validation_pixel_ap_quantized": 0.018435223897298177,
+        "precision": null,
+        "recall": 0.0,
+        "false_positive_rate": 0.0,
+        "removal_fraction": 0.0,
+        "custom_whole_mask_map50": 0.0,
+        "clean_fpr_target": 0.012239583333333333,
+        "clean_fpr_achieved": 0.0
+      }
+    }
+  }
+}
