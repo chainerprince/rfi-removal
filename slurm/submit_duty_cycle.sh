@@ -5,7 +5,7 @@
 #   bash slurm/submit_duty_cycle.sh A      # only A
 #   bash slurm/submit_duty_cycle.sh B      # only B
 
-cd /resnick/groups/CS156b/from_central/2026/njack2/rfi-removal
+cd "$(dirname "$0")/.."  # repo root
 for experiment in ${@:-A B}; do
     sbatch slurm/run_duty_cycle_${experiment}.sh
 done

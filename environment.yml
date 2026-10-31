@@ -1,0 +1,26 @@
+# Conda environment for this repo. Create or update it with: bash setup.sh
+# To add a package: add it below (conda-forge name) or under pip:, then rerun bash setup.sh.
+name: rfi-removal
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.11
+  - pip
+  - numpy
+  - scipy
+  - pandas
+  - matplotlib
+  - scikit-learn
+  - jupyterlab
+  - ipykernel
+  - nbconvert
+  - nbclient
+  - nbformat
+  - pytest
+  # GPU build from conda-forge, CUDA 12 (runs on older drivers). Installed by conda rather than
+  # pip so it uses the env's own C++ runtime instead of the older system one.
+  - pytorch-gpu=2.14.1
+  - cuda-version=12.9
+  - pip:
+      - -e .   # this repo's code (src/cs163_rfi and vendor/dsa110), editable

@@ -1,5 +1,11 @@
 /data/*
-/logs/
+/logs/*
+!/logs/.gitkeep
 /executed_notebooks/
 *.pt
 __pycache__/
+*.egg-info/
+/.conda/
+.env
+condaenv.*.requirements.txt
+/.vscode/

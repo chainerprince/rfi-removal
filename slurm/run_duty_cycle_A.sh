@@ -5,27 +5,28 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=16G
-#SBATCH --output=/resnick/groups/CS156b/from_central/2026/njack2/rfi-removal/logs/rfi_duty_A_%j.log
+#SBATCH --output=logs/rfi_duty_A_%j.log
 
 # Experiment A: evaluate the trained grid U-Net and the baselines on a generated duty-cycle sweep.
 # No training and no GPU needed.
-# Usage:
+# Usage (from the repo root, so logs/ and .conda/ are found):
 #   sbatch slurm/run_duty_cycle_A.sh
-#   RFI_MODEL_RUN_DIR=/path/to/trial_dir sbatch slurm/run_duty_cycle_A.sh   # evaluate another trial
+#   RFI_MODEL_RUN_DIR=/path/to/results/trial_dir RFI_MODEL_CHECKPOINT_DIR=/path/to/checkpoint_dir \
+#       sbatch slurm/run_duty_cycle_A.sh   # evaluate another trial
 
 # 1. Initialize Conda for this script
 source ~/.bashrc
 
-# 2. Activate your shared team environment
-conda activate cs156b_env
+# 2. Activate this repo's conda environment (created by: bash setup.sh)
+cd "$SLURM_SUBMIT_DIR"
+conda activate ./.conda
 
-# 3. Paths (read by the notebook's first cell)
-export RFI_PROJECT_ROOT=/resnick/groups/CS156b/from_central/2026/njack2/rfi-removal
-export RFI_DUTY_A_DIR=${RFI_DUTY_A_DIR:-$RFI_PROJECT_ROOT/results/duty_cycle/A_eval_sweep_${SLURM_JOB_ID}}
+# 3. Folders come from .env; these only set per-job options (read by the notebook's first cell)
+export RFI_DUTY_A_DIR=${RFI_DUTY_A_DIR:-$PWD/results/duty_cycle/A_eval_sweep_${SLURM_JOB_ID}}
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 [ -n "$RFI_MODEL_RUN_DIR" ] && export RFI_MODEL_RUN_DIR
+[ -n "$RFI_MODEL_CHECKPOINT_DIR" ] && export RFI_MODEL_CHECKPOINT_DIR
 
-cd "$RFI_PROJECT_ROOT"
 mkdir -p executed_notebooks
 
 # 4. Run the notebook top to bottom; the executed copy keeps all printed output and figures
