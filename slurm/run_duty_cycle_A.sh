@@ -7,6 +7,8 @@
 #SBATCH --mem=16G
 #SBATCH --output=logs/rfi_duty_A_%j.log
 
+set -euo pipefail
+
 # Experiment A: evaluate the trained grid U-Net and the baselines on a generated duty-cycle sweep.
 # No training and no GPU needed.
 # Usage (from the repo root, so logs/ and .conda/ are found):
@@ -35,6 +37,6 @@ jupyter nbconvert --to notebook --execute \
     --ExecutePreprocessor.timeout=-1 \
     --output-dir executed_notebooks \
     --output "duty_cycle_A_eval_sweep_${SLURM_JOB_ID}.ipynb" \
-    notebooks/duty_cycle_A_eval_sweep.ipynb
+    notebooks/week_03/duty_cycle_A_eval_sweep.ipynb
 
 echo "=== Duty-cycle experiment A finished ==="
