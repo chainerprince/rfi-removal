@@ -77,7 +77,7 @@ Inside the repo:
 |---|---|
 | `src/cs163_rfi/` | Our Python code: loading data, simulating RFI, flagging, metrics, plots, paths |
 | `vendor/dsa110/` | Code copied from the DSA-110 telescope project. Don't edit it. |
-| `notebooks/` | Experiments: one notebook per experiment |
+| `notebooks/` | Weekly experiments: `week_01/`, `week_02/`, `week_03/`; originals in `archive/` |
 | `slurm/` | Scripts that run the notebooks as jobs on the HPC |
 | `results/` | Outputs we keep: metrics (CSV/JSON) and plots |
 | `assets/` | Images used in the notebooks |

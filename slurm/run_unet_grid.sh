@@ -8,6 +8,8 @@
 #SBATCH --mem=32G
 #SBATCH --output=logs/rfi_unet_grid_%j.log
 
+set -euo pipefail
+
 # Usage (from the repo root, so logs/ and .conda/ are found):
 #   sbatch slurm/run_unet_grid.sh                     # new grid, BASE_CHANNELS=8
 #   RFI_BASE_CHANNELS=16 sbatch slurm/run_unet_grid.sh
@@ -33,6 +35,6 @@ jupyter nbconvert --to notebook --execute \
     --ExecutePreprocessor.timeout=-1 \
     --output-dir executed_notebooks \
     --output "RFI_unet_team_${SLURM_JOB_ID}.ipynb" \
-    notebooks/RFI_unet_team.ipynb
+    notebooks/week_02/grid_search.ipynb
 
 echo "=== U-Net grid finished ==="

@@ -1,0 +1,2 @@
+# Portable notebook/Colab installation; cluster setup uses environment.yml.
+-e .[notebook]

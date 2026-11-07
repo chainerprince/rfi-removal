@@ -1,107 +1,40 @@
-# RFI Removal/Protecting the radio sky using ML
+# RFI detection — CS163 Weeks 1–3
 
-Caltech CS163 · v1.0
+Detect interference in native time × frequency power images. Read the notebooks in week order. Week 1 is supplied starter code; Weeks 2–3 contain the team's experiments.
 
-Open [the notebook](notebooks/01_first_rfi_experiment.ipynb).
-The [HTML copy](notebooks/01_first_rfi_experiment.html) has all plots and equations saved.
+| Week | Notebook | Purpose |
+| --- | --- | --- |
+| 1 | [Starter and baselines](notebooks/week_01/starter.ipynb) | Load data; run SK, bandpass and combined flagging; inspect errors. |
+| 1 | [Baseline comparison](notebooks/week_01/baselines.ipynb) | Corrected pooled validation totals, error examples and optional FAR sweep. |
+| 2 | [Grid search](notebooks/week_02/grid_search.ipynb) | CNN/U-Net × widths 8/16 × BCE/MSE/L1 × rates 0.0003/0.001. |
+| 2 | [Results](notebooks/week_02/results.ipynb) | Rank the 24 validation results and compare factor means. |
+| 3 | [Duty-cycle evaluation](notebooks/week_03/duty_cycle_A_eval_sweep.ipynb) | Compare a fixed U-Net and statistical methods across duty cycles. |
+| 3 | [Duty-group training](notebooks/week_03/duty_cycle_B_train_mix.ipynb) | Train with low, high or combined duty cycles. |
+| 3 | [Family analysis](notebooks/week_03/family_analysis.ipynb) | Compare pooled error rates with recording-level bootstrap intervals. |
+| 3 | [Source strength](notebooks/week_03/source_strength.ipynb) | Analyze the fixed full-data model by power band; optionally train balanced groups. |
+| 3 | [Imbalance remedies](notebooks/week_03/imbalance_remedies.ipynb) | Compare foreground crops, focal loss and weighted BCE. |
+| 3 | [Dataset scaling](notebooks/week_03/dataset_scaling.ipynb) | Train on nested subsets of 10–100 recordings. |
 
-## Google Colab
+## Run
 
-1. Open [Colab](https://colab.research.google.com/).
-2. Select **File → Upload notebook** and upload `01_first_rfi_experiment.ipynb`.
-3. Open the Files panel. Upload `cs163-rfi-starter-v1.0.zip` and wait for the upload to finish.
-4. Use a CPU runtime for the tutorial. Run the cells in order.
-5. Download your edited notebook before ending the session.
+Run `bash setup.sh`, configure [.env.example](.env.example) as `.env`, then activate `conda activate ./.conda` and start `python -m jupyter lab`. Use the same kernel and run each notebook from its first cell. See [notebook setup](notebooks/README.md) for Colab and [CONTRIBUTING.md](CONTRIBUTING.md) for the cluster.
 
-Both files are needed. The first cell extracts the ZIP and installs the included
-library. Colab files can disappear when the session ends. Use a GPU for U-Net training.
+`RFI_DATA_DIR` must contain `dataset.csv`. Checkpoints stay outside git under `RFI_CHECKPOINTS_ROOT/RFI_NAME`; metrics and plots go in `results/`. Reusable experiment code lives in `src/cs163_rfi/`; original notebooks are preserved in `notebooks/archive/`.
 
-## Local Jupyter
-
-Extract the ZIP. Open a terminal in `cs163-rfi-starter-v1.0`.
-Use Python 3.11 or newer.
+For the full grid, run all four architecture/width pairs. On the cluster:
 
 ```sh
-python -m pip install -e ".[notebook]"
-python -m jupyter lab notebooks/01_first_rfi_experiment.ipynb
+RFI_ARCHITECTURE=cnn RFI_BASE_CHANNELS=8 sbatch slurm/run_unet_grid.sh
 ```
 
-Installation needs internet or installed dependencies. The experiments and HTML
-then work offline. Reading links need internet.
+Repeat for CNN/16, U-Net/8 and U-Net/16. Choose GPU for training. Test evaluation is opt-in where indicated.
 
-## Read one input and its mask
+## Protocol
 
-```python
-import pandas as pd
-from cs163_rfi import load_sample, flag_rfi, score_mask
-from cs163_rfi.plotting import plot_sample
+- **Data:** 200 recordings, ten antennas each; split 100/60/40 by recording. Each antenna input/target is `[1, 4096, 128]`.
+- **Normalization:** one mean/std from the five clean training recordings: `4.257218322753906` / `4.2564571117143295`. Statistical flaggers receive raw power.
+- **Models:** predict logits. BCE uses logits; MSE/L1 use sigmoid probabilities. CNN/8 has 26,441 parameters; U-Net/8 has 29,321.
+- **Selection:** checkpoints use validation AP. The grid matches clean-validation FPR; imbalance/scaling choose validation-F1 thresholds. Test does not select models or thresholds.
+- **Metrics:** precision = TP/(TP+FP), recall = TP/(TP+FN), FPR = FP/(FP+TN). Pool native-pixel counts before ratios. Pixel AP summarizes ranking across thresholds; the grid uses 65,536 probability bins.
 
-data = "data/starter-v1.0"
-catalog = pd.read_csv(f"{data}/dataset.csv")
-display(catalog.head())
-
-sample = load_sample(data, sample_id=18, antenna=0)
-power = sample["power"]
-labels = sample["rfi_mask"]
-flags = flag_rfi(power, method="sk-bandpass")
-plot_sample(sample, flags, factor=16)
-print(score_mask(flags, labels))
-```
-
-Both arrays have shape **(4096, 128)**: time × frequency.
-Power is float32; labels and flags are Boolean. A true label means injected RFI
-power is at least 1% of mean receiver-noise power. Weaker contributions count as
-negative labels. A true detector flag means remove that sample. Neither mask
-changes the stored power. Display averaging does not change the data or scores.
-
-Each recording lasts **134.218 ms**, with **32.768 µs** samples and **128 channels**
-spanning **3.91 MHz** near 1350 MHz. It contains ten antennas, A00–A09, and one
-linear feed, X. The full power array has shape `(4096, 10, 128, 1)`.
-
-## Data and splits
-
-`data/starter-v1.0/dataset.csv` lists **200 recordings**:
-100 train, 60 validation and 40 test. Ten antennas per recording give
-**1,000 training pairs, 600 validation pairs and 400 test pairs**.
-Keep all antennas and windows from one recording in the same split.
-
-The CSV gives paths, RFI types, strength and duty cycle. Each numbered folder has
-`power.npy`, `rfi_mask.npy`, `rfi_power.npy` and a short `recording.json`.
-Use the loader: it converts stored power to float32 and unpacks the Boolean mask.
-Injected power and transmitter settings are for analysis, not network inputs.
-
-The set contains 180 RFI recordings, ten noise-only controls and ten
-astronomical-pulse controls. The astronomical controls contain no RFI.
-
-## Baselines and first model
-
-Call `flag_rfi` with `method="sk"`, `"bandpass"`, or `"sk-bandpass"`.
-The combined method also expands channel clusters. These use the DSA-110
-spectral-kurtosis and bandpass routines. A flagged channel removes its full
-134 ms block, on that antenna only. Keep the defaults for the first comparison.
-Later, `m_values=(64,)` tests one SK accumulation length.
-
-Start with a per-antenna U-Net. A batch has shape `(batch, 1, 4096, 128)`.
-Predict one RFI probability per pixel, then choose a threshold on validation data.
-
-For normalization, pool power across time, frequency and antennas from **all
-noise-only training recordings**. Calculate **one mean and one standard deviation**.
-Use `(power - mean) / std` for every model input in train, validation and test.
-Do not normalize each recording separately. Leave labels unchanged and give
-classical detectors the original power. Keep chosen settings fixed for the test.
-
-Run the three baselines. Report precision, recall, false-positive rate and removal
-by RFI family. Explain one miss and one false flag. Test the explanation with
-controlled data. The notebook shows how to generate and save new recordings.
-Each student reads one ML RFI paper; any ML RFI mitigation paper is welcome.
-
-## Further reading
-
-- [Buch et al.: Real-time RFI Mitigation Techniques in Radio Astronomy and their Practical Limitations](https://arxiv.org/html/2512.01954v2).
-  Start with Table 1 for methods, benefits and limitations. Gregory Hellbourg is a coauthor.
-- [Smith, Lynch and Pisano: Simulating Spectral Kurtosis Mitigation Against Realistic RFI Signals](https://arxiv.org/abs/2207.07642).
-- [NRAO: interferometry](https://www.cv.nrao.edu/~sransom/web/Ch3.html#S7).
-
-The examples use an ideal receiver and simplified transmitter waveforms.
-They are a first experiment, not a model of every effect in real data.
-Image credits are in `assets/CREDITS.md`.
+The best grid CNN uses BCE and learning rate 0.0003: validation AP `0.6408918`, recall `0.6849259`. Compact historical tables are in `results/reference/`; floating-point results can vary across GPU/software versions. Source-strength analysis uses RFI-only groups and a frozen clean-FPR cutoff; the balanced-band training section records its separate validation-F1 protocol. Global-context and antenna-averaging experiments are outside this update.

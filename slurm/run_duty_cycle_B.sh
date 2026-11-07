@@ -8,6 +8,8 @@
 #SBATCH --mem=32G
 #SBATCH --output=logs/rfi_duty_B_%j.log
 
+set -euo pipefail
+
 # Experiment B: retrain the U-Net with low / high / all duty-cycle training mixes,
 # then evaluate every model on the same generated duty-cycle sweep.
 # Usage (from the repo root, so logs/ and .conda/ are found):
@@ -34,6 +36,6 @@ jupyter nbconvert --to notebook --execute \
     --ExecutePreprocessor.timeout=-1 \
     --output-dir executed_notebooks \
     --output "duty_cycle_B_train_mix_${SLURM_JOB_ID}.ipynb" \
-    notebooks/duty_cycle_B_train_mix.ipynb
+    notebooks/week_03/duty_cycle_B_train_mix.ipynb
 
 echo "=== Duty-cycle experiment B finished ==="
